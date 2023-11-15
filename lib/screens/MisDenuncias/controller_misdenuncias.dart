@@ -26,8 +26,8 @@ buscarDenuncias(context) async {
   try {
     String idpersona = await obtenerPerfil();
     http.Response response = await filtrarDenuncias(idpersona);
-
-    if (response != null && response.statusCode == 200) {
+    //if (response != null && response.statusCode == 200) {
+    if (response.statusCode == 200) {
       var denuncias = json.decode(response.body);
       if (denuncias != null && denuncias['respuesta'] != null) {
         return denuncias['respuesta'];

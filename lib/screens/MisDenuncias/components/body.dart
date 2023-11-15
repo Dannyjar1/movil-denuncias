@@ -51,7 +51,8 @@ Future<List<dynamic>> getDenuncias() async {
 
 
   mostrarDenuncias() {
-    if (denuncias != null && denuncias.length > 0) {
+    //if (denuncias != null && denuncias.length > 0) {
+    if (denuncias.length > 0) {
       return ListView.builder(
         itemCount:denuncias.length,
         itemBuilder: (context, int i) {
