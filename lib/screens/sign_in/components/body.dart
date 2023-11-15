@@ -1,27 +1,20 @@
-//import 'package:movil_denuncias/Controllers/controller_inicio_sesion.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-// import 'package:movil_denuncias/components/botones.dart';
 import 'package:flutter/material.dart';
-//import 'package:movil_denuncias/Services/facebook.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movil_denuncias/components/no_account_text.dart';
-// import 'package:movil_denuncias/components/socal_card.dart';
+import 'package:movil_denuncias/components/socal_card.dart';
 import 'package:movil_denuncias/models/model_Persona.dart';
-// import 'package:movil_denuncias/screens/sign_in/controllers/controller_sign_in.dart';
 import '../../../size_config.dart';
 import 'sign_form.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 
 class Body extends StatefulWidget {
-
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  Persona persona= new Persona();
+  Persona persona = new Persona();
 
-  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,27 +37,34 @@ class _BodyState extends State<Body> {
                 SizedBox(height: SizeConfig.screenHeight! * 0.06),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //children: [
-                    // SocalCard(
-                    //   icon: "assets/icons/facebook-2.svg",
-                    //   size: Size(45.0, 45.0),
-                    //   press: () async {
-                    //     mostrarLoading(context);
-                    //     Map facebookprofile = await FacebookAuth.login();
-                    //     Map persona = {
-                    //       'email':facebookprofile['email'],
-                    //       'first_name':facebookprofile['first_name'],
-                    //       'last_name':facebookprofile['last_name'],
-                    //       'foto':facebookprofile['picture']['data']['url']
-                    //     };
+                  children: [
+                    SocalCard(
+                      icon: "assets/icons/facebook-2.svg",
+                      size: Size(45.0, 45.0), press: () {},
 
-                    //     if(facebookprofile != null){
-                          
-                    //       await enviarFacebook(persona,context);                          
-                    //     }
-                    //   },
-                    // ),
-                  //],
+                      // press: () async {
+                      //   mostrarLoading(context);
+                      //   Map facebookprofile = await FacebookAuth.login();
+                      //   Map persona = {
+                      //     'email':facebookprofile['email'],
+                      //     'first_name':facebookprofile['first_name'],
+                      //     'last_name':facebookprofile['last_name'],
+                      //     'foto':facebookprofile['picture']['data']['url']
+                      //   };
+
+                      //   if(facebookprofile != null){
+
+                      //     await enviarFacebook(persona,context);
+                      //   }
+                      // },
+                    ),
+                    SocalCard(
+                      icon: "assets/icons/google-icon.svg",
+                      size: Size(45.0, 45.0),
+                      press: () {},
+                    )
+                    
+                  ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 NoAccountText(),
@@ -74,5 +74,37 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Image.asset("assets/icons/google-icon.svg"),
+      iconSize: 45.0,
+      onPressed: () {
+        _handleSignInWithGoogle(context);
+      },
+    );
+  }
+
+  Future<void> _handleSignInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // El usuario canceló la operación
+        return;
+      }
+
+      // Aquí puedes realizar acciones con el usuario de Google, como registrarlo en tu aplicación.
+      // Puedes acceder a la información del usuario con googleUser.email, googleUser.displayName, etc.
+
+      // Después de obtener la información que necesitas, puedes redirigir a otra pantalla o realizar otras acciones según tu aplicación.
+      // Navigator.pushReplacement(...);
+    } catch (error) {
+      print("Error al iniciar sesión con Google: $error");
+      // Manejar el error según tus necesidades.
+    }
   }
 }

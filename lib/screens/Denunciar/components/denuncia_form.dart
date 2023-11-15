@@ -365,4 +365,5 @@ class _FormDenunciaState extends State<FormDenuncia> {
   }
 
   final _formKeyDenunciar = GlobalKey<FormState>();
+  
 }
