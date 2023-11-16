@@ -9,8 +9,9 @@ String ipServicio = '143.198.154.14';
 int puertoServicio = 3085;
 String urlServicio = 'http://$ipServicio:$puertoServicio';
 //String urlServicio = 'https://api-denuncias.herokuapp.com/api-denuncias';
-var headers = { 'content-type': 'application/json' };
+var headers = { 'content-type': 'application/json', 'auth' : 'auth-token' };
 var headers2 = {'content-type': 'multipart/form-data'};
+
 final colorLoading = AlwaysStoppedAnimation<Color>(Color(colorapp));
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,

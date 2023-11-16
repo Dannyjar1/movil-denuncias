@@ -6,7 +6,7 @@ import 'package:movil_denuncias/components/form_error.dart';
 import 'package:movil_denuncias/helper/keyboard.dart';
 import 'package:movil_denuncias/models/model_Persona.dart';
 //import 'package:movil_denuncias/screens/complete_profile/complete_profile_screen.dart';
-//import 'package:movil_denuncias/screens/sign_up/controller_sing_up.dart';
+import 'package:movil_denuncias/screens/sign_up/controller_sing_up.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -66,8 +66,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState?.save();
                 KeyboardUtil.hideKeyboard(context);
-                // Llama a la función mostrarLoading aquí
-                // Llama a la función enviarCuenta aquí
+                enviarCuenta(_persona, context);
               }
             },
           ),

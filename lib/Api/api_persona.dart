@@ -10,7 +10,7 @@ crearPersona(persona){
   return http.post(Uri.parse('$urlServicio/auth/register'), body: userToJson(persona),headers: headers);
 }
 filtrarDenuncias(persona){
-  return http.post(Uri.parse('$urlServicio/filtrar-denuncias'),body: {'id_persona':persona});
+  return http.post(Uri.parse('$urlServicio/getAllDenuncias'),body: {'id_persona':persona});
 }
 crearLoginFacebook(facebook){
   return http.post(Uri.parse('$urlServicio/crear-login-facebook'), body: json.encode(facebook),headers: headers);
