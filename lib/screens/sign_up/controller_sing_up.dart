@@ -11,7 +11,10 @@ enviarCuenta(data,context) async {
   try {
     http.Response response = await crearPersona(data);
     Navigator.pop(context);
-    var respuestaLogin = json.decode(response.body);
+    
+    //var respuestaLogin = json.decode(response.body);
+    var respuestaLogin = json.decode(response.body.length as String);
+
     Navigator.pop(context);
     if(response.statusCode == 200 && respuestaLogin['ok'] == 1){
       await guardarPerfil(respuestaLogin['identificador']);
