@@ -12,17 +12,17 @@ enviarCuenta(data,context) async {
     http.Response response = await crearPersona(data);
     Navigator.pop(context);
     
-    //var respuestaLogin = json.decode(response.body);
-    var respuestaLogin = json.decode(response.body.length as String);
+  var respuestaRegister = json.decode(response.body);
+  print(respuestaRegister & "hola");
 
     Navigator.pop(context);
-    if(response.statusCode == 200 && respuestaLogin['ok'] == 1){
-      await guardarPerfil(respuestaLogin['identificador']);
+    if(response.statusCode == 200 && respuestaRegister['ok'] == 1){
+      await guardarPerfil(respuestaRegister['identificador']);
       Navigator.popAndPushNamed(context, ProfileScreen.routeName);
 
     } 
     else{
-      mostrarMensaje(respuestaLogin['mensaje'], context, 3);
+      mostrarMensaje(respuestaRegister['mensaje'], context, 3);
     }
   } on Exception catch (e) {
      print('Error: $e');

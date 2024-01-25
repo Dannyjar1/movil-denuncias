@@ -5,10 +5,11 @@ const kPrimaryColor = Color(4282079640);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const colorapp = 4282079640;
 int imagenesPermitidas = 2;
-String ipServicio = '143.198.154.14';
+String ipServicio = '18.234.114.56';
 int puertoServicio = 3085;
 String urlServicio = 'http://$ipServicio:$puertoServicio';
 //String urlServicio = 'https://api-denuncias.herokuapp.com/api-denuncias';
+//String urlServicio ='https://0066-45-164-66-53.ngrok-free.app';
 var headers = { 'content-type': 'application/json', 'auth' : 'auth-token' };
 var headers2 = {'content-type': 'multipart/form-data'};
 

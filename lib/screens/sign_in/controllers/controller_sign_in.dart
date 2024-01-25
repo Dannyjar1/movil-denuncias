@@ -15,8 +15,8 @@ enviarLogin(data,context) async {
     var respuestaLogin = json.decode(response.body);
     print(respuestaLogin);
     Navigator.pop(context);
-    if(response.statusCode == 200 && respuestaLogin['data'] != null){
-      await guardarPerfil(respuestaLogin['data']["token"]);
+    if(response.statusCode == 200 && respuestaLogin['result'] != null){
+      await guardarPerfil(respuestaLogin['result']["token"]);
       Navigator.popAndPushNamed(context, ProfileScreen.routeName);
     } 
     else{
