@@ -19,14 +19,34 @@ removePerfil() async {
   final shared = await _prefs;
   return shared.remove(session);
 }
+
+//antiguo 
+// guardarUbicacionDenuncia(Map ubicacion) async {
+//   final shared = await _prefs;
+//   shared.setString(ubicacionDenuncia, json.encode(ubicacion));
+// }
+// obtenerUbicacionDenuncia() async {
+//   final shared = await _prefs;
+//   return shared.getString(ubicacionDenuncia);
+// }
+
+// nuevo codigo 
+
 guardarUbicacionDenuncia(Map ubicacion) async {
   final shared = await _prefs;
-  shared.setString(ubicacionDenuncia, json.encode(ubicacion));
+  await shared.setString(ubicacionDenuncia, json.encode(ubicacion));
+  // Agregar esta línea para depurar
+  print("Ubicación guardada: ${json.encode(ubicacion)}");
 }
+
 obtenerUbicacionDenuncia() async {
   final shared = await _prefs;
-  return shared.getString(ubicacionDenuncia);
+  var ubicacion = shared.getString(ubicacionDenuncia);
+  // Agregar esta línea para depurar
+  print("Ubicación obtenida: $ubicacion");
+  return ubicacion;
 }
+
 removeObtenerUbicacion() async {
   final shared = await _prefs;
   return shared.remove(ubicacionDenuncia);

@@ -74,21 +74,40 @@ class _FormDenunciaState extends State<FormDenuncia> {
         _timeController.text = _time!;
       });
   }
-
- Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
+// nuevo codigo 
+Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
   var denuncia = await obtenerUbicacionDenuncia();
   if (denuncia != null) {
     ubicacionDenuncia = json.decode(denuncia);
-    _ubicacionController.text = ubicacionDenuncia?['calles'];
+
+    // Usar el operador de acceso condicional ?. y el operador de afirmación de no null !.
+    _ubicacionController.text = ubicacionDenuncia?['calles'] ?? 'Valor por defecto';
+
     print('UBICACION DEL MAPA $ubicacionDenuncia');
     setState(() {
-      // No puedes devolver un valor aquí en un método void
-      // Si necesitas usar este valor en otro lugar, puedes hacerlo en el código que llama a esta función.
+      // Actualiza el estado para reflejar los cambios
     });
     return ubicacionDenuncia;
   }
-  return null; // Devuelve null en caso de que denuncia sea null.
+  return null;
 }
+
+
+// antiguo 
+//  Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
+//   var denuncia = await obtenerUbicacionDenuncia();
+//   if (denuncia != null) {
+//     ubicacionDenuncia = json.decode(denuncia);
+//     _ubicacionController.text = ubicacionDenuncia?['calles'];
+//     print('UBICACION DEL MAPA $ubicacionDenuncia');
+//     setState(() {
+//       // No puedes devolver un valor aquí en un método void
+//       // Si necesitas usar este valor en otro lugar, puedes hacerlo en el código que llama a esta función.
+//     });
+//     return ubicacionDenuncia;
+//   }
+//   return null; // Devuelve null en caso de que denuncia sea null.
+// }
 
   @override
   void initState() {
@@ -160,32 +179,39 @@ class _FormDenunciaState extends State<FormDenuncia> {
               ),
             ),
             ListTile(
-              leading: IconButton(
-                  icon: SvgPicture.asset("assets/icons/Location point.svg",
-                      width: 35),
-                  onPressed: () async {
-                    var status = await Permission.location.status;
-                    if (status.isGranted) {
-                      Navigator.pushNamed(context, MapaScreen.routeName);
-                    } else {
-                      mostrarMensaje(
-                          'Habilita los permisos de almacenamiento para continuar',
-                          context,
-                          3);
-                      pedirPersmisos();
-                    }
-                  }),
-              title: TextFormField(
-                enabled: false,
-                style: TextStyle(fontSize: 15),
-                onSaved: (String? val) {},
-                keyboardType: TextInputType.text,
-                controller: _ubicacionController,
-                decoration: InputDecoration(
-                    labelText: 'Ubicación',
-                    floatingLabelBehavior: FloatingLabelBehavior.always),
-              ),
-            ),
+  leading: IconButton(
+    icon: SvgPicture.asset("assets/icons/Location point.svg", width: 35),
+    onPressed: () async {
+      var status = await Permission.location.status; // Obtener el estado del permiso
+      if (status.isGranted) {
+        Navigator.pushNamed(context, MapaScreen.routeName);
+      } else {
+        mostrarMensaje(
+          'Habilita los permisos de almacenamiento para continuar',
+          context,
+          3
+        );
+        pedirPersmisos();
+      }
+    },
+  ),
+  title: InkWell(
+    onTap: () {
+      Navigator.pushNamed(context, MapaScreen.routeName);
+    },
+    child: AbsorbPointer( // Para deshabilitar la interacción directa con el TextFormField
+      child: TextFormField(
+        style: TextStyle(fontSize: 15),
+        controller: _ubicacionController,
+        decoration: InputDecoration(
+          labelText: 'Ubicación',
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+        ),
+      ),
+    ),
+  ),
+),
+
             Padding(
               padding: EdgeInsets.all(10.0),
               child: TextFormField(

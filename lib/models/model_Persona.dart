@@ -150,14 +150,13 @@ factory Persona.fromJson(Map<String, dynamic> json) => Persona(
       cedula: json ["cedula"]
     );
 
-  Map<String, dynamic> toJson() => {
-        "password": password,
-        "email": email,
-        "photo": photo,
-        "cell_phone": numTelefono,
-        "nombreCompleto": nombreCompleto,
-        "cedula": cedula
-      };
+Map<String, dynamic> toJson() => {
+    "nombreCompleto": nombreCompleto,
+    "cedula": cedula,
+    "numTelefono": numTelefono,
+    "email": email,
+    "password": password
+};
 }
 
 class Login{

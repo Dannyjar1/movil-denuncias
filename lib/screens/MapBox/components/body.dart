@@ -7,6 +7,7 @@ import 'package:movil_denuncias/constants.dart';
 import 'package:movil_denuncias/size_config.dart';
 import 'package:flutter/material.dart';
 import '../../../components/botones.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
 
 class BodyMapa extends StatefulWidget {
@@ -17,18 +18,43 @@ class BodyMapa extends StatefulWidget {
 class _BodyMapaState extends State<BodyMapa> {
   GoogleMapController? mapController;
   double? latitud, longitud, markerLatitud, markerLongitud;
-  String? referencias, calles;
+  //String? referencias, calles;
   bool gpsActivado = false;
   String marker = 'assets/images/ubi2.png';
   loc.Location location = loc.Location();
+
+  // agregar este controlador para google maps  
+  TextEditingController callesController = TextEditingController();
+  TextEditingController referenciasController = TextEditingController();
+  
+  // metodo on map 
+
+  onTapMap(LatLng coordinates) async {
+    addSymbolMap(coordinates);
+    setState(() {
+      markerLatitud = coordinates.latitude;
+      markerLongitud = coordinates.longitude;
+    });
+
+    // Obtener dirección desde las coordenadas
+    List<Placemark> placemarks = await placemarkFromCoordinates(coordinates.latitude, coordinates.longitude);
+
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks.first;
+      setState(() {
+        callesController.text = "${place.street}, ${place.subLocality}, ${place.locality}";
+      });
+    } else {
+    // limpiar el campo de texto o mostrar un mensaje.
+    callesController.text = "";
+    }
+  }
 
   position() {
     try {
       location.onLocationChanged.listen((loc.LocationData currentLocation) {
         if (mounted) {
           setState(() {
-            print(currentLocation.latitude);
-            print(currentLocation.longitude);
             latitud = currentLocation.latitude!;
             longitud = currentLocation.longitude!;
           });
@@ -59,6 +85,8 @@ class _BodyMapaState extends State<BodyMapa> {
       print('ERROR $e');
     }
   }
+
+
 
   @override
   void initState() {
@@ -121,29 +149,14 @@ class _BodyMapaState extends State<BodyMapa> {
     //     iconSize: 0.25));
     // await mapController?.clearSymbols();
   }
-
+// Modificado este fue modificado  
   viewMap() {
     return GoogleMap(
-      // onStyleLoadedCallback: () {
-      //   mapController?.addSymbol(SymbolOptions(
-      //       geometry: LatLng(latitud!, longitud!),
-      //       iconImage: marker,
-      //       iconSize: 0.25,
-      //       iconColor: 'blue'));
-      // },
-      initialCameraPosition:
-          CameraPosition(target: LatLng(latitud!, longitud!), zoom: 16.5),
-      // styleString: MapboxStyles.MAPBOX_STREETS,
+      initialCameraPosition: CameraPosition(target: LatLng(latitud!, longitud!), zoom: 16.5),
       mapType: MapType.normal,
       compassEnabled: false,
       rotateGesturesEnabled: false,
-      onTap: (coordinates) {
-        addSymbolMap(coordinates);
-        setState(() {
-          markerLatitud = coordinates.latitude;
-          markerLongitud = coordinates.longitude;
-        });
-      },
+      onTap: onTapMap, // Usa la función onTapMap
       onMapCreated: onMapCreated,
     );
   }
@@ -153,70 +166,69 @@ class _BodyMapaState extends State<BodyMapa> {
   }
 
   escribirUbicacion() {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 20, left: 8, right: 8),
-      child: Column(
-        children: [
-          TextFormField(
-            style: TextStyle(color: Colors.black87),
-            decoration:
-                InputDecoration(hintText: "Calles", focusColor: kPrimaryColor),
-            onChanged: (String valor) {
-              setState(() {
-                calles = valor;
-              });
-            },
+  return Padding(
+    padding: EdgeInsets.only(bottom: 20, left: 8, right: 8),
+    child: Column(
+      children: [
+        TextFormField(
+          controller: callesController, // Asignar el controlador aquí
+          style: TextStyle(color: Colors.black87),
+          decoration: InputDecoration(
+            hintText: "Calles",
+            focusColor: kPrimaryColor
+          ), 
+        ),
+        SizedBox(height: getProportionateScreenHeight(10)),
+        TextFormField(
+          controller: referenciasController, // Asignar el controlador aquí
+          maxLines: 1,
+          style: TextStyle(color: Colors.black87),
+          decoration: InputDecoration(
+            hintText: "Referencia",
+            focusColor: kPrimaryColor
           ),
-          SizedBox(height: getProportionateScreenHeight(10)),
-          TextFormField(
-            maxLines: 1,
-            style: TextStyle(color: Colors.black87),
-            decoration: InputDecoration(
-                hintText: "Referencia", focusColor: kPrimaryColor),
-            onChanged: (String valor) {
-              setState(() {
-                referencias = valor;
-              });
-            },
-          ),
-          SizedBox(height: getProportionateScreenHeight(10)),
-          ElevatedButton(
-            onPressed: () {
-              // Acción a realizar cuando se presiona el botón
-              obtenerDatosUbicacion();
-            },
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: kPrimaryColor, // Color del texto del botón
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0), // Bordes redondeados
-              ),
+        ),
+        SizedBox(height: getProportionateScreenHeight(10)),
+        ElevatedButton(
+          onPressed: () {
+            // Acción a realizar cuando se presiona el botón
+            obtenerDatosUbicacion();
+          },
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: kPrimaryColor, // Color del texto del botón
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0), // Bordes redondeados
             ),
-            child: Text('Continuar'), // Texto del botón
-          )
-        ],
-      ),
-    );
-  }
+          ),
+          child: Text('Continuar'), // Texto del botón
+        )
+      ],
+    ),
+  );
+}
 
   obtenerDatosUbicacion() async {
-    if (latitud != null &&
-        longitud != null &&
-        referencias != null &&
-        calles != null) {
-      Map ubicacion = {
-        'latitud': markerLatitud == null ? latitud : markerLatitud,
-        'longitud': markerLongitud == null ? longitud : markerLongitud,
-        'referencia': referencias,
-        'calles': calles
-      };
-      await guardarUbicacionDenuncia(ubicacion);
+  String callesValor = callesController.text;
+  String referenciasValor = referenciasController.text;
+
+
+  if (latitud != null && longitud != null && callesValor.isNotEmpty && referenciasValor.isNotEmpty) {
+    Map ubicacion = {
+      'latitud': markerLatitud ?? latitud,
+      'longitud': markerLongitud ?? longitud,
+      'referencia': referenciasValor,
+      'calles': callesValor
+      
+    };
+     await guardarUbicacionDenuncia(ubicacion);
       if (markerLatitud != null) {
         mostrarMensaje('Se tomó la posición marcada en el mapa', context, 3);
+        print(ubicacion);
       }
       Navigator.pop(context);
-    } else {
-      mostrarMensaje('Llena los campos', context, 3);
-    }
+  } else {
+    mostrarMensaje('Llena los campos', context, 3);
+  }
   }
 }

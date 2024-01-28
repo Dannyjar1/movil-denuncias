@@ -677,7 +677,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildCedulaFormField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.phone,
       onSaved: (newValue) => _persona.cedula = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
