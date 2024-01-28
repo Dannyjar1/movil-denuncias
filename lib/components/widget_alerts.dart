@@ -68,7 +68,7 @@ alertMessage(
                       child: Text(
                         message,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0, color: Colors.black),
                       ),
                     ),
                   ],

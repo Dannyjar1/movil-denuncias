@@ -7,20 +7,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:movil_denuncias/screens/profile/profile_screen.dart';
 
-enviarLogin(data,context) async {
+enviarLogin(data, context) async {
   try {
     http.Response response = await apiLogin(data);
-    print(response.body);
-    print(response.statusCode);
     var respuestaLogin = json.decode(response.body);
-    print(respuestaLogin);
     Navigator.pop(context);
-    if(response.statusCode == 200 && respuestaLogin['result'] != null){
-      await guardarPerfil(respuestaLogin['result']["token"]);
+    
+    if (response.statusCode == 200 && respuestaLogin['code'] == 200 && respuestaLogin['data'] != null) {
+      await guardarPerfil(respuestaLogin['data']["token"]);
       Navigator.popAndPushNamed(context, ProfileScreen.routeName);
-    } 
-    else{
-      mostrarMensaje(respuestaLogin['error']??"", context, 3);
+    } else {
+      // Mostrar mensaje de error usando el campo 'message' del backend
+      mostrarMensaje(respuestaLogin['message'] ?? "Error desconocido", context, 3);
     }
   } on Exception catch (e) {
     print(e);
