@@ -50,45 +50,98 @@ Future<List<dynamic>> getDenuncias() async {
 
 
 
+  // mostrarDenuncias() {
+  //   //if (denuncias != null && denuncias.length > 0) {
+  //   if (denuncias.length > 0) {
+  //     return ListView.builder(
+  //       itemCount:denuncias.length,
+  //       itemBuilder: (context, int i) {
+  //         return Row(
+  //           children: <Widget>[
+  //             Container(
+  //                 height: 120,
+  //                 child: Image.network(denuncias[i]['imagenes'][0]) // Edit this
+  //                 ),
+  //             Expanded(
+  //               child: Container(
+  //                 height: 150,
+  //                 padding: const EdgeInsets.all(12),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Text(denuncias[i]['descripcion'], // Edit this
+  //                         style: TextStyle(
+  //                             fontSize: 13, fontWeight: FontWeight.bold)),
+  //                     SizedBox(height: 10),
+  //                     Expanded(
+  //                         child: Text(denuncias[i]['fecha'] +
+  //                             " " +
+  //                             denuncias[i]['hora'])) // Edit this
+  //                   ],
+  //                 ),
+  //               ),
+  //             )
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   } else {
+  //     return Center(child: Text('Aun no has denunciado'));
+  //   }
+  // }
+
+
   mostrarDenuncias() {
-    //if (denuncias != null && denuncias.length > 0) {
-    if (denuncias.length > 0) {
-      return ListView.builder(
-        itemCount:denuncias.length,
-        itemBuilder: (context, int i) {
-          return Row(
-            children: <Widget>[
-              Container(
-                  height: 120,
-                  child: Image.network(denuncias[i]['imagenes'][0]) // Edit this
-                  ),
-              Expanded(
-                child: Container(
-                  height: 150,
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(denuncias[i]['descripcion'], // Edit this
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 10),
-                      Expanded(
-                          child: Text(denuncias[i]['fecha'] +
-                              " " +
-                              denuncias[i]['hora'])) // Edit this
-                    ],
-                  ),
+  if (denuncias.isNotEmpty) {
+    return ListView.builder(
+      itemCount: denuncias.length,
+      itemBuilder: (context, int i) {
+        var denuncia = denuncias[i];
+        return Card(
+          elevation: 4,
+          margin: EdgeInsets.all(8),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  denuncia['tituloDenuncia'], 
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-              )
-            ],
-          );
-        },
-      );
-    } else {
-      return Center(child: Text('Aun no has denunciado'));
-    }
+                SizedBox(height: 5),
+                Text('Denunciante: ${denuncia['nombreDenunciante']}'),
+                SizedBox(height: 5),
+                Text('Descripción: ${denuncia['descripcion']}'),
+                SizedBox(height: 5),
+                Text('Categoría: ${denuncia['categoria']}'),
+                SizedBox(height: 5),
+                Text('Estado: ${denuncia['estado']}'),
+                SizedBox(height: 5),
+                denuncia['evidencia'] != null
+                    ? Image.network(
+                        denuncia['evidencia'],
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(),
+                SizedBox(height: 5),
+                Text(
+                  'Ubicación: Lat ${denuncia['ubicacion']['coordenadas'][1]}, Long ${denuncia['ubicacion']['coordenadas'][0]}',
+                ),
+                SizedBox(height: 5),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  } else {
+    return Center(child: Text('Aún no hay denuncias'));
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

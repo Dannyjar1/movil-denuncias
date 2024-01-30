@@ -99,8 +99,8 @@ alertMessage(
                       const SizedBox(height: 20.0),
                       Container(
                         margin: const EdgeInsets.only(right: 15.0, left: 15.0),
-                        child: BtnText(
-                          titleBtnCancel,
+                        child: BtnC(
+                        title: titleBtnCancel,
                           onTap: () {
                             if (onTapCancel == null) {
                               Navigator.pop(context);

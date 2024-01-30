@@ -2,6 +2,7 @@ import 'dart:io';
 //import 'dart:ui';
 import 'package:movil_denuncias/Services/shared_preferences.dart';
 import 'package:movil_denuncias/components/botones.dart';
+import 'package:movil_denuncias/components/widget_alerts.dart';
 import 'package:movil_denuncias/components/widget_btn.dart';
 import 'package:movil_denuncias/constants.dart';
 import 'package:movil_denuncias/helper/keyboard.dart';
@@ -29,22 +30,25 @@ class FormDenuncia extends StatefulWidget {
 class _FormDenunciaState extends State<FormDenuncia> {
   var imagenes = [];
   var enviarimagenes = [];
+
   File? imagen;
   String? _hour, _minute, _time;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-  String? descripcion;
+
   loc.Location location = loc.Location();
+  TextEditingController editTituloDenuncia = TextEditingController();
+  TextEditingController editDescripcion = TextEditingController();
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   TextEditingController _ubicacionController = TextEditingController();
   Map? ubicacionDenuncia;
   String? categoriaSeleccionada;
   List<String> categorias = [
-    "Agua Potable,Alcantarillado Sanitario, Alcantarillado Pluvial",
-    "Recolección de desechos y Saneamiento Ambiental",
-    "Móvilidad Urbana: Bacheo de Calles, Frecuencias, Obstrucciones de aceras, etc",
-    "Obstrucción de vías por construcciones, ornato, permisos de construccion "
+    'Agua Potable, Alcantarillado Sanitario, Alcantarillado Pluvial',
+    'Recolección de Desechos y Saneamiento Ambiental',
+    'Movilidad Urbana: Bacheo de Calles, Frecuencias, Obstrucciones de aceras, etc.',
+    'Obstrucción de vías por construcciones, ornato, permisos de construcción'
   ];
 
   void onUbicacionSelected(Map ubicacion) {
@@ -200,14 +204,12 @@ class _FormDenunciaState extends State<FormDenuncia> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: editTituloDenuncia,
                   decoration: InputDecoration(
                     labelText: "Título de la denuncia",
                     prefixIcon: Icon(Icons.title),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
-                  onChanged: (String val) {
-                    // Lógica para manejar el cambio en el título
-                  },
                 ),
               ),
               // Padding(
@@ -249,7 +251,8 @@ class _FormDenunciaState extends State<FormDenuncia> {
                           prefixIcon: Icon(Icons.category),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                         ),
-                        items: categorias.map<DropdownMenuItem<String>>((String value) {
+                        items: categorias
+                            .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -302,46 +305,32 @@ class _FormDenunciaState extends State<FormDenuncia> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: editDescripcion,
                   maxLines: 3,
                   decoration: InputDecoration(
                     labelText: "Descripción",
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
-                  onChanged: (String val) {
-                    setState(() {
-                      descripcion = val;
-                    });
-                  },
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: BtnC(
                   title: "Añadir imagenes",
-                  onTap: () async {
-                    if (imagenes.length < imagenesPermitidas) {
-                      mostrarLoading(context);
-                      var status = await Permission.storage.status;
-                      if (status.isGranted) {
-                        await selectImageGallery();
-                        Navigator.pop(context);
-                      } else {
-                        mostrarMensaje(
-                            'Habilita los permisos de almacenamiento para continuar',
-                            context,
-                            3);
-                        await pedirPersmisos();
-                        Navigator.pop(context);
-                      }
-                    } else {
-                      mostrarMensaje(
-                          'Número de imagenes permitidas $imagenesPermitidas \nPresiona sobre la imagen para eliminar',
-                          context,
-                          3);
-                    }
+                  onTap: () {
+                    alertMessage(
+                      context,
+                      message: "Selecciona una opción:",
+                      titleBtnAgree: "Galería",
+                      titleBtnCancel: "Cámara",
+                      onTap: () => selectImageType(ImageSource.gallery),
+                      onTapCancel: () => selectImageType(ImageSource.camera),
+                    );
+                    // selectImageType(ImageSource.gallery);
                   },
                 ),
               ),
+
               mostrarImagenes(),
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -360,9 +349,31 @@ class _FormDenunciaState extends State<FormDenuncia> {
     );
   }
 
-  selectImageGallery() async {
+  selectImageType(ImageSource type) async {
+    Navigator.pop(context);
+    if (imagenes.length < imagenesPermitidas) {
+      mostrarLoading(context);
+      var status = await Permission.storage.status;
+      if (status.isGranted) {
+        await selectImageGallery(type);
+        Navigator.pop(context);
+      } else {
+        mostrarMensaje('Habilita los permisos de almacenamiento para continuar',
+            context, 3);
+        await pedirPersmisos();
+        Navigator.pop(context);
+      }
+    } else {
+      mostrarMensaje(
+          'Número de imagenes permitidas $imagenesPermitidas \nPresiona sobre la imagen para eliminar',
+          context,
+          3);
+    }
+  }
+
+  selectImageGallery(ImageSource type) async {
     try {
-      final img = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final img = await ImagePicker().pickImage(source: type, imageQuality: 40);
       if (img != null) {
         setState(() {
           imagen = File(img.path);
@@ -439,15 +450,14 @@ class _FormDenunciaState extends State<FormDenuncia> {
     try {
       if (ubicacionDenuncia != null && enviarimagenes.length > 0) {
         mostrarLoading(context);
-        Map denuncia = {
-          'id_persona': await obtenerPerfil(),
-          'referencia': ubicacionDenuncia?['referencia'],
-          'calles': ubicacionDenuncia?['calles'],
-          'hora': _timeController.text,
-          'fecha': _dateController.text,
-          'descripcion': descripcion,
-          'latitud': ubicacionDenuncia?['latitud'],
-          'longitud': ubicacionDenuncia?['longitud']
+        Map<String, String> denuncia = {
+          'tituloDenuncia': editTituloDenuncia.text.trim(),
+          'descripcion': editDescripcion.text.trim(),
+          // 'latitud': ubicacionDenuncia?['latitud'],
+          // 'longitud': ubicacionDenuncia?['longitud']
+          "ubicacion":
+              "${ubicacionDenuncia?['latitud']}, ${ubicacionDenuncia?['longitud']}",
+          'categoria': categoriaSeleccionada ?? "",
         };
         await enviarDenuncia(denuncia, enviarimagenes, context);
       } else {
@@ -459,6 +469,38 @@ class _FormDenunciaState extends State<FormDenuncia> {
       Navigator.pop(context);
     }
   }
+
+//   Future<void> obtnerDatosDenuncia() async {
+//   try {
+//     if (ubicacionDenuncia != null && enviarimagenes.length > 0) {
+//       mostrarLoading(context); // Asegúrate de que esta función muestre un indicador de carga apropiado
+
+//       Map<String, dynamic> denuncia = {
+//         'id_persona': await obtenerPerfil(), // Asegúrate de que esta función devuelva el ID del perfil correctamente
+//         'referencia': ubicacionDenuncia?['referencia'],
+//         'calles': ubicacionDenuncia?['calles'],
+//         'hora': _timeController.text, // Verifica si es necesario enviar la hora
+//         'fecha': _dateController.text, // Verifica si es necesario enviar la fecha
+//         'descripcion': descripcion,
+//         'latitud': ubicacionDenuncia?['latitud'],
+//         'longitud': ubicacionDenuncia?['longitud'],
+//         // Asegúrate de que los datos de las imágenes se estén formateando correctamente
+//         'imagenes': enviarimagenes.map((imagen) => {
+//           'path': imagen['imagen'],
+//           'extension': imagen['extension']
+//         }).toList(),
+//       };
+
+//       await enviarDenuncia(denuncia, enviarimagenes, context); // Asegúrate de que enviarDenuncia maneje los datos correctamente
+//     } else {
+//       mostrarMensaje('Agrega la información correspondiente', context, 2);
+//     }
+//   } catch (e) {
+//     print('Error: $e');
+//     mostrarMensaje('Vuelve a intentarlo', context, 2);
+//     Navigator.pop(context);
+//   }
+// }
 
   Future checkGps() async {
     try {

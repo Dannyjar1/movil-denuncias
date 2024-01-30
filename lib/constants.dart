@@ -5,7 +5,7 @@ import 'package:movil_denuncias/size_config.dart';
 const kPrimaryColor= Color(0xFF23A338);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const colorapp = 4282079640;
-int imagenesPermitidas = 2;
+int imagenesPermitidas = 1;
 String ipServicio = '3.89.6.58';
 int puertoServicio = 3085;
 String urlServicio = 'http://$ipServicio:$puertoServicio';
