@@ -2,6 +2,7 @@ import 'package:movil_denuncias/Services/shared_preferences.dart';
 import 'package:movil_denuncias/components/botones.dart';
 import 'package:movil_denuncias/screens/Denunciar/denuncia_view.dart';
 import 'package:movil_denuncias/screens/MisDenuncias/misdenuncias_screen.dart';
+import 'package:movil_denuncias/screens/VerDenuncias/verdenuncias_screen.dart';
 import 'package:movil_denuncias/screens/complete_profile/complete_profile_screen.dart';
 import 'package:movil_denuncias/screens/otp/otp_screen.dart';
 // import 'package:movil_denuncias/screens/profile/profile_screen.dart';
@@ -24,6 +25,13 @@ class Body extends StatelessWidget {
             icon: "assets/icons/User Icon.svg",
             press: () => {
               Navigator.pushNamed(context, CompleteProfileScreen.routeName)
+            },
+          ),
+          ProfileMenu(
+            text: "Ver Denuncias",
+            icon: "assets/icons/location.svg",
+            press: () => {
+              Navigator.pushNamed(context, VerDenuncias.routName)
             },
           ),
           ProfileMenu(

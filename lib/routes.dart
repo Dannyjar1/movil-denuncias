@@ -2,6 +2,7 @@ import 'package:movil_denuncias/screens/Denunciar/denuncia_view.dart';
 import 'package:movil_denuncias/screens/MapBox/mapbox_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movil_denuncias/screens/MisDenuncias/misdenuncias_screen.dart';
+import 'package:movil_denuncias/screens/VerDenuncias/verdenuncias_screen.dart';
 import 'package:movil_denuncias/screens/complete_profile/complete_profile_screen.dart';
 import 'package:movil_denuncias/screens/forgot_password/forgot_password_screen.dart';
 import 'package:movil_denuncias/screens/otp/otp_screen.dart';
@@ -26,6 +27,7 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
+  VerDenuncias.routName:(context) =>   VerDenuncias() ,
   OtpScreen.routeName: (context) => OtpScreen(),
   DenunciaView.routeName : (context) => DenunciaView(),
   FormDenuncia.routName:(context) => FormDenuncia(),

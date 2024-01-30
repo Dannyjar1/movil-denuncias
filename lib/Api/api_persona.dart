@@ -10,7 +10,13 @@ crearPersona(persona){
   return http.post(Uri.parse('$urlServicio/auth/register'), body: userToJson(persona),headers: headers);
 }
 filtrarDenuncias(persona){
-  return http.post(Uri.parse('$urlServicio/getAllDenuncias'),body: {'id_persona':persona});
+  // print("$urlServicio/getAllDenuncias");
+  return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias'),headers: {'auth-token':persona});
+}
+
+filtrarDenunciasTodos(persona){
+  // print("$urlServicio/getAllDenuncias");
+  return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias/'),headers: {'auth-token':persona});
 }
 crearLoginFacebook(facebook){
   return http.post(Uri.parse('$urlServicio/crear-login-facebook'), body: json.encode(facebook),headers: headers);

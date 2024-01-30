@@ -128,7 +128,7 @@ Future<List<dynamic>> getDenuncias() async {
                     : Container(),
                 SizedBox(height: 5),
                 Text(
-                  'Ubicación: Lat ${denuncia['ubicacion']['coordenadas'][1]}, Long ${denuncia['ubicacion']['coordenadas'][0]}',
+                  'Ubicación: ${denuncia['ubicacion']}',
                 ),
                 SizedBox(height: 5),
               ],
@@ -142,10 +142,15 @@ Future<List<dynamic>> getDenuncias() async {
   }
 }
 
+@override
+  void initState() {
+    getDenuncias();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    getDenuncias();
+    // getDenuncias();
     return Padding(
       padding: EdgeInsets.only(top: getProportionateScreenHeight(50)),
       child: Card(elevation: 4, child: mostrarDenuncias()),
