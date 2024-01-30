@@ -21,6 +21,7 @@ import 'package:path/path.dart' as path;
 
 class FormDenuncia extends StatefulWidget {
   static String routName = '/denuncia-form';
+
   @override
   _FormDenunciaState createState() => _FormDenunciaState();
 }
@@ -30,9 +31,6 @@ class _FormDenunciaState extends State<FormDenuncia> {
   var enviarimagenes = [];
   File? imagen;
   String? _hour, _minute, _time;
-  String? dateTime;
-  final picker = ImagePicker();
-  Map? ubicacionDenuncia;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   String? descripcion;
@@ -40,6 +38,22 @@ class _FormDenunciaState extends State<FormDenuncia> {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   TextEditingController _ubicacionController = TextEditingController();
+  Map? ubicacionDenuncia;
+  String? categoriaSeleccionada;
+  List<String> categorias = [
+    "Agua Potable,Alcantarillado Sanitario, Alcantarillado Pluvial",
+    "Recolección de desechos y Saneamiento Ambiental",
+    "Móvilidad Urbana: Bacheo de Calles, Frecuencias, Obstrucciones de aceras, etc",
+    "Obstrucción de vías por construcciones, ornato, permisos de construccion "
+  ];
+
+  void onUbicacionSelected(Map ubicacion) {
+    setState(() {
+      ubicacionDenuncia = ubicacion;
+      _ubicacionController.text =
+          "${ubicacion['calles']}, ${ubicacion['referencia']}";
+    });
+  }
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -74,26 +88,27 @@ class _FormDenunciaState extends State<FormDenuncia> {
         _timeController.text = _time!;
       });
   }
-// nuevo codigo 
-Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
-  var denuncia = await obtenerUbicacionDenuncia();
-  if (denuncia != null) {
-    ubicacionDenuncia = json.decode(denuncia);
 
-    // Usar el operador de acceso condicional ?. y el operador de afirmación de no null !.
-    _ubicacionController.text = ubicacionDenuncia?['calles'] ?? 'Valor por defecto';
+// nuevo codigo
+  Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
+    var denuncia = await obtenerUbicacionDenuncia();
+    if (denuncia != null) {
+      ubicacionDenuncia = json.decode(denuncia);
 
-    print('UBICACION DEL MAPA $ubicacionDenuncia');
-    setState(() {
-      // Actualiza el estado para reflejar los cambios
-    });
-    return ubicacionDenuncia;
+      // Usar el operador de acceso condicional ?. y el operador de afirmación de no null !.
+      _ubicacionController.text =
+          ubicacionDenuncia?['calles'] ?? 'Valor por defecto';
+
+      print('UBICACION DEL MAPA $ubicacionDenuncia');
+      setState(() {
+        // Actualiza el estado para reflejar los cambios
+      });
+      return ubicacionDenuncia;
+    }
+    return null;
   }
-  return null;
-}
 
-
-// antiguo 
+// antiguo
 //  Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
 //   var denuncia = await obtenerUbicacionDenuncia();
 //   if (denuncia != null) {
@@ -115,184 +130,251 @@ Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
     checkGps();
     super.initState();
   }
+
   @override
   void dispose() {
     removeObtenerUbicacion();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    obtenerUbicacion();
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKeyDenunciar,
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ListTile(
-              leading: IconButton(
-                  icon: SvgPicture.asset("assets/icons/calendario.svg",
-                      width: 35),
-                  onPressed: () {
-                    _selectDate(context);
-                  }),
-              title: TextFormField(
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.text,
-                  controller: _dateController,
-                  enabled: false,
-                  onChanged: (String val) {
-                    setState(() {
-                      _dateController.text = val.toString();
-                    });
-                  },
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKeyDenunciar,
+          child: Column(
+            children: <Widget>[
+              // ListTile(
+              //   leading: IconButton(
+              //       icon: SvgPicture.asset("assets/icons/calendario.svg",
+              //           width: 35),
+              //       onPressed: () {
+              //         _selectDate(context);
+              //       }),
+              //   title: TextFormField(
+              //       style: TextStyle(fontSize: 18),
+              //       textAlign: TextAlign.center,
+              //       keyboardType: TextInputType.text,
+              //       controller: _dateController,
+              //       enabled: false,
+              //       onChanged: (String val) {
+              //         setState(() {
+              //           _dateController.text = val.toString();
+              //         });
+              //       },
+              //       decoration: InputDecoration(
+              //         labelText: 'Fecha',
+              //         floatingLabelBehavior: FloatingLabelBehavior.always,
+              //       )),
+              // ),
+              // ListTile(
+              //   leading: IconButton(
+              //       icon: SvgPicture.asset("assets/icons/cronometro.svg",
+              //           width: 35),
+              //       onPressed: () {
+              //         _selectTime(context);
+              //       }),
+              //   title: TextFormField(
+              //     style: TextStyle(fontSize: 15),
+              //     textAlign: TextAlign.center,
+              //     onChanged: (String val) {
+              //       setState(() {
+              //         _timeController.text = val.toString();
+              //       });
+              //     },
+              //     onTap: () {
+              //       _selectTime(context);
+              //     },
+              //     enabled: false,
+              //     keyboardType: TextInputType.text,
+              //     controller: _timeController,
+              //     decoration: InputDecoration(
+              //         labelText: 'Hora',
+              //         floatingLabelBehavior: FloatingLabelBehavior.always),
+              //   ),
+              // ),
+// nuevo codigo
+// Campo para el título de la denuncia
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Fecha',
+                    labelText: "Título de la denuncia",
+                    prefixIcon: Icon(Icons.title),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                  )),
-            ),
-            ListTile(
-              leading: IconButton(
-                  icon: SvgPicture.asset("assets/icons/cronometro.svg",
-                      width: 35),
-                  onPressed: () {
-                    _selectTime(context);
-                  }),
-              title: TextFormField(
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
-                onChanged: (String val) {
-                  setState(() {
-                    _timeController.text = val.toString();
-                  });
-                },
-                onTap: () {
-                  _selectTime(context);
-                },
-                enabled: false,
-                keyboardType: TextInputType.text,
-                controller: _timeController,
-                decoration: InputDecoration(
-                    labelText: 'Hora',
-                    floatingLabelBehavior: FloatingLabelBehavior.always),
-              ),
-            ),
-            ListTile(
-  leading: IconButton(
-    icon: SvgPicture.asset("assets/icons/Location point.svg", width: 35),
-    onPressed: () async {
-      var status = await Permission.location.status; // Obtener el estado del permiso
-      if (status.isGranted) {
-        Navigator.pushNamed(context, MapaScreen.routeName);
-      } else {
-        mostrarMensaje(
-          'Habilita los permisos de almacenamiento para continuar',
-          context,
-          3
-        );
-        pedirPersmisos();
-      }
-    },
-  ),
-  title: InkWell(
-    onTap: () {
-      Navigator.pushNamed(context, MapaScreen.routeName);
-    },
-    child: AbsorbPointer( // Para deshabilitar la interacción directa con el TextFormField
-      child: TextFormField(
-        style: TextStyle(fontSize: 15),
-        controller: _ubicacionController,
-        decoration: InputDecoration(
-          labelText: 'Ubicación',
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-        ),
-      ),
-    ),
-  ),
-),
-
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: TextFormField(
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: "Descripción",
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                  onChanged: (String val) {
+                    // Lógica para manejar el cambio en el título
+                  },
                 ),
-                onChanged: (String val) {
-                  setState(() {
-                    descripcion = val;
-                  });
-                },
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: BtnC(
-                title: "Añadir imagenes",
-                onTap: () async {
-                  if (imagenes.length < imagenesPermitidas) {
-                    mostrarLoading(context);
-                    var status = await Permission.storage.status;
+              // Padding(
+              //   padding: EdgeInsets.all(10.0),
+              //   child: DropdownButtonFormField(
+              //     value: categoriaSeleccionada,
+              //     decoration: InputDecoration(
+              //       labelText: 'Categoría',
+              //       prefixIcon: Icon(Icons.category),
+              //       floatingLabelBehavior: FloatingLabelBehavior.always,
+              //     ),
+              //     items:
+              //         categorias.map<DropdownMenuItem<String>>((String value) {
+              //       return DropdownMenuItem<String>(
+              //         value: value,
+              //         child: Text(value),
+              //       );
+              //     }).toList(),
+              //     onChanged: (String? newValue) {
+              //       setState(() {
+              //         categoriaSeleccionada = newValue;
+              //       });
+              //     },
+              //   ),
+              // ),
+
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      // Usa Flexible en lugar de Expanded
+                      child: DropdownButtonFormField(
+                        isExpanded:
+                            true, // Asegúrate de que el dropdown se expanda
+                        value: categoriaSeleccionada,
+                        decoration: InputDecoration(
+                          labelText: 'Categoría',
+                          prefixIcon: Icon(Icons.category),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                        items: categorias.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            categoriaSeleccionada = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+// fin nuevo codigo
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  readOnly: true, // Hace que el campo sea de solo lectura
+                  controller: _ubicacionController,
+                  decoration: InputDecoration(
+                    labelText: 'Ubicación',
+                    prefixIcon: Icon(Icons.location_on), // Icono de ubicación
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                  onTap: () async {
+                    var status = await Permission.location.status;
                     if (status.isGranted) {
-                      selectImageGallery();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapaScreen(
+                            onUbicacionSelected: onUbicacionSelected,
+                          ),
+                        ),
+                      );
                     } else {
                       mostrarMensaje(
-                          'Habilita los permisos de almacenamiento para continuar',
+                          'Habilita los permisos de ubicación para continuar',
                           context,
                           3);
                       pedirPersmisos();
-                      Navigator.pop(context);
                     }
-                  } else {
-                    mostrarMensaje(
-                        'Número de imagenes permitidas $imagenesPermitidas \nPresiona sobre la imagen para eliminar',
-                        context,
-                        3);
-                  }
-                },
+                  },
+                ),
               ),
-            ),
-            mostrarImagenes(),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: BtnC(
-                title: "Denunciar",
-                onTap: () {
-                  KeyboardUtil.hideKeyboard(context);
-                  obtnerDatosDenuncia();
-                },
+
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    labelText: "Descripción",
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                  ),
+                  onChanged: (String val) {
+                    setState(() {
+                      descripcion = val;
+                    });
+                  },
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: BtnC(
+                  title: "Añadir imagenes",
+                  onTap: () async {
+                    if (imagenes.length < imagenesPermitidas) {
+                      mostrarLoading(context);
+                      var status = await Permission.storage.status;
+                      if (status.isGranted) {
+                        await selectImageGallery();
+                        Navigator.pop(context);
+                      } else {
+                        mostrarMensaje(
+                            'Habilita los permisos de almacenamiento para continuar',
+                            context,
+                            3);
+                        await pedirPersmisos();
+                        Navigator.pop(context);
+                      }
+                    } else {
+                      mostrarMensaje(
+                          'Número de imagenes permitidas $imagenesPermitidas \nPresiona sobre la imagen para eliminar',
+                          context,
+                          3);
+                    }
+                  },
+                ),
+              ),
+              mostrarImagenes(),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: BtnC(
+                  title: "Denunciar",
+                  onTap: () {
+                    KeyboardUtil.hideKeyboard(context);
+                    obtnerDatosDenuncia();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
- selectImageGallery() async {
-  try {
-    final img = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (img != null) {
-      setState(() {
-        imagen = File(img.path);
-        imagenes.add(imagen);
-        var extension = path.extension(imagen!.path);
-        print('EXTENSION $extension');
-        enviarimagenes.add({'imagen': imagen?.path, 'extension': extension});
-      });
+  selectImageGallery() async {
+    try {
+      final img = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (img != null) {
+        setState(() {
+          imagen = File(img.path);
+          imagenes.add(imagen);
+          var extension = path.extension(imagen!.path);
+          enviarimagenes.add({'imagen': imagen?.path, 'extension': extension});
+        });
+      }
+    } catch (e) {
+      print('Error al seleccionar imagen: $e');
     }
-    Navigator.pop(context);
-  } on NoSuchMethodError catch (e) {
-     print('Error: $e');
-    Navigator.pop(context);
-  } on PlatformException catch (e) {
-     print('Error: $e');
-    Navigator.pop(context);
   }
-}
-
 
   mostrarImagenes() {
     return ListView.builder(
@@ -354,10 +436,8 @@ Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
   }
 
   obtnerDatosDenuncia() async {
-    
-    
     try {
-      if(ubicacionDenuncia !=null && enviarimagenes.length>0){
+      if (ubicacionDenuncia != null && enviarimagenes.length > 0) {
         mostrarLoading(context);
         Map denuncia = {
           'id_persona': await obtenerPerfil(),
@@ -370,11 +450,11 @@ Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
           'longitud': ubicacionDenuncia?['longitud']
         };
         await enviarDenuncia(denuncia, enviarimagenes, context);
-      }else{
+      } else {
         mostrarMensaje('Agrega la información correspondiente', context, 2);
       }
     } on Exception catch (e) {
-       print('Error: $e');
+      print('Error: $e');
       mostrarMensaje('Vuelve a intentarloo', context, 2);
       Navigator.pop(context);
     }
@@ -386,10 +466,9 @@ Future<Map<dynamic, dynamic>?> obtenerUbicacion() async {
         await location.requestService();
       }
     } on Exception catch (e) {
-     print('ERROR $e');
+      print('ERROR $e');
     }
   }
 
   final _formKeyDenunciar = GlobalKey<FormState>();
-  
 }

@@ -12,7 +12,16 @@ import 'screens/Denunciar/components/denuncia_form.dart';
 
 // We use name route
 // All our routes will be available here
+
+class MapaScreenArguments {
+  final Function(Map) onUbicacionSelected;
+
+  MapaScreenArguments({required this.onUbicacionSelected});
+}
+
 final Map<String, WidgetBuilder> routes = {
+
+  
   SignInScreen.routeName: (context) => SignInScreen(),
   ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
@@ -21,6 +30,10 @@ final Map<String, WidgetBuilder> routes = {
   DenunciaView.routeName : (context) => DenunciaView(),
   FormDenuncia.routName:(context) => FormDenuncia(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
-  MapaScreen.routeName: (context) => MapaScreen(),
+  //MapaScreen.routeName: (context) => MapaScreen(),
+   MapaScreen.routeName: (context) {
+    final args = ModalRoute.of(context)!.settings.arguments as MapaScreenArguments;
+    return MapaScreen(onUbicacionSelected: args.onUbicacionSelected);
+  },
   MisDenuncias.routName: (context) => MisDenuncias()
 };

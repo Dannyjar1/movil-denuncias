@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movil_denuncias/size_config.dart';
 
-const kPrimaryColor = Color(4282079640);
+//const kPrimaryColor = Color(4282079640);
+const kPrimaryColor= Color(0xFF23A338);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const colorapp = 4282079640;
 int imagenesPermitidas = 2;
@@ -17,11 +18,13 @@ final colorLoading = AlwaysStoppedAnimation<Color>(Color(colorapp));
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  colors: [Color(0xFFFFA53E), Color(0xFFFF7643)],
+  colors: [Color(0xFF23A338), Color(0xFF23A338)],
+  // colors: [Color(0xFFFFA53E), Color(0xFFFF7643)],
 );
 const kSecondaryColor = Color(0xFF979797);
+//const kTextColor = Color.fromARGB(255, 0, 0, 0);
 const kTextColor = Color(0xFF757575);
-
+//const kTextColor =  Color(0xFF23A338);
 const kAnimationDuration = Duration(milliseconds: 200);
 
 final headingStyle = TextStyle(

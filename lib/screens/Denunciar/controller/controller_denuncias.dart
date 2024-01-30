@@ -25,8 +25,8 @@ enviarDenuncia(Map denuncia, List imagenes, context) async {
     print('$urlServicio/denuncias/nuevaDenuncia');
     req.fields.addAll({
       'id_persona': denuncia['id_persona'].toString(),
-      "hora": denuncia['hora'].toString(),
-      'fecha': denuncia['fecha'].toString(),
+      //"hora": denuncia['hora'].toString(),
+      //'fecha': denuncia['fecha'].toString(),
       'descripcion': denuncia['descripcion'].toString(),
       'referencia': denuncia['referencia'].toString(),
       'calles': denuncia['calles'].toString(),
