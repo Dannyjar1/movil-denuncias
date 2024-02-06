@@ -11,7 +11,7 @@ int puertoServicio = 3085;
 String urlServicio = 'http://$ipServicio:$puertoServicio';
 //String urlServicio = 'https://api-denuncias.herokuapp.com/api-denuncias';
 //String urlServicio ='https://0066-45-164-66-53.ngrok-free.app';
-var headers = { 'content-type': 'application/json', 'auth' : 'auth-token' };
+var headers = { 'content-type': 'application/json', 'auth' : 'Authorization' };
 var headers2 = {'content-type': 'multipart/form-data'};
 
 final colorLoading = AlwaysStoppedAnimation<Color>(Color(colorapp));

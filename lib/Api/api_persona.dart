@@ -11,12 +11,13 @@ crearPersona(persona){
 }
 filtrarDenuncias(persona){
   // print("$urlServicio/getAllDenuncias");
-  return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias'),headers: {'auth-token':persona});
+  return http.get(Uri.parse('$urlServicio/denuncias/getDenunciasUser'),headers: {'Authorization': 	 "Bearer ${persona}"});
 }
+
 
 filtrarDenunciasTodos(persona){
   // print("$urlServicio/getAllDenuncias");
-  return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias/'),headers: {'auth-token':persona});
+  return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias/'),headers: {'Authorization': 	 "Bearer ${persona}"});
 }
 crearLoginFacebook(facebook){
   return http.post(Uri.parse('$urlServicio/crear-login-facebook'), body: json.encode(facebook),headers: headers);
