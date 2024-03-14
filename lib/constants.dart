@@ -6,12 +6,12 @@ const kPrimaryColor= Color(0xFF23A338);
 const kPrimaryLightColor = Color(0xFFFFECDF);
 const colorapp = 4282079640;
 int imagenesPermitidas = 1;
-String ipServicio = '3.89.6.58';
+String ipServicio = '54.211.53.237';
 int puertoServicio = 3085;
 String urlServicio = 'http://$ipServicio:$puertoServicio';
 //String urlServicio = 'https://api-denuncias.herokuapp.com/api-denuncias';
 //String urlServicio ='https://0066-45-164-66-53.ngrok-free.app';
-var headers = { 'content-type': 'application/json', 'auth' : 'auth-token' };
+var headers = { 'content-type': 'application/json', 'Authorization' : 'Authorization' };
 var headers2 = {'content-type': 'multipart/form-data'};
 
 final colorLoading = AlwaysStoppedAnimation<Color>(Color(colorapp));

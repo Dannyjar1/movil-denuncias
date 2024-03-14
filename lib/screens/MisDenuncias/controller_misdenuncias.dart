@@ -25,6 +25,7 @@ import 'package:http/http.dart' as http;
 buscarDenuncias(context) async {
   try {
     String idpersona = await obtenerPerfil();
+    print(idpersona);
     http.Response response = await filtrarDenuncias(idpersona);
     print(response.statusCode);
     print(response.body);

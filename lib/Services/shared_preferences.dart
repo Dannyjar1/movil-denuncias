@@ -13,6 +13,7 @@ guardarPerfil(String id) async {
 
 obtenerPerfil() async {
   final shared = await _prefs;
+  print (shared.getString(session));
   return shared.getString(session);
 }
 removePerfil() async {
