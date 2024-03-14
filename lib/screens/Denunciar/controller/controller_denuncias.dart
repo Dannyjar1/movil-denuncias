@@ -33,7 +33,7 @@ enviarDenuncia(Map<String, String> denuncia, List imagenes, context) async {
       ));
     }
     req.headers.addAll({
-      "Authorization": await obtenerPerfil(),
+        "Authorization": "Bearer " + await obtenerPerfil(),
     });
 
     print(req.headers);
