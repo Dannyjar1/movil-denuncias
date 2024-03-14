@@ -32,7 +32,7 @@ class Body extends StatelessWidget {
             icon: "assets/icons/location.svg",
             press: () => {
               // Navigator.pushNamed(context, VerDenuncias.routName)
-              Navigator.pushNamed(context, MisDenuncias.routName)
+              Navigator.pushNamed(context, VerDenuncias.routName)
             },
           ),
           ProfileMenu(

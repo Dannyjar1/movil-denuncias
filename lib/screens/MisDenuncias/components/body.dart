@@ -109,6 +109,9 @@ Future<List<dynamic>> getDenuncias() async {
                   denuncia['tituloDenuncia'], 
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
+
+
+                
                 SizedBox(height: 5),
                 Text('Denunciante: ${denuncia['nombreDenunciante']}'),
                 SizedBox(height: 5),
