@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movil_denuncias/screens/MisDenuncias/components/body.dart';
 import 'package:movil_denuncias/screens/VerDenuncias/components/body.dart';
 
 class VerDenuncias extends StatelessWidget {
@@ -7,6 +6,9 @@ class VerDenuncias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Denuncias'),
+      ),
       body: VerDenunciasBody(),
     );
   }

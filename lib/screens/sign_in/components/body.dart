@@ -28,7 +28,7 @@ class _BodyState extends State<Body> {
               children: [
                 SizedBox(height: SizeConfig.screenHeight! * 0.04),
                 Image.asset(
-                  'assets/images/mi barrio.jpeg',
+                  'assets/images/mi barrio.png',
                   height: getProportionateScreenHeight(150),
                   width: getProportionateScreenWidth(250),
                 ),
@@ -38,31 +38,31 @@ class _BodyState extends State<Body> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SocalCard(
-                      icon: "assets/icons/facebook-2.svg",
-                      size: Size(45.0, 45.0), press: () {},
+                    // SocalCard(
+                    //   icon: "assets/icons/facebook-2.svg",
+                    //   size: Size(45.0, 45.0), press: () {},
 
-                      // press: () async {
-                      //   mostrarLoading(context);
-                      //   Map facebookprofile = await FacebookAuth.login();
-                      //   Map persona = {
-                      //     'email':facebookprofile['email'],
-                      //     'first_name':facebookprofile['first_name'],
-                      //     'last_name':facebookprofile['last_name'],
-                      //     'foto':facebookprofile['picture']['data']['url']
-                      //   };
+                    //   // press: () async {
+                    //   //   mostrarLoading(context);
+                    //   //   Map facebookprofile = await FacebookAuth.login();
+                    //   //   Map persona = {
+                    //   //     'email':facebookprofile['email'],
+                    //   //     'first_name':facebookprofile['first_name'],
+                    //   //     'last_name':facebookprofile['last_name'],
+                    //   //     'foto':facebookprofile['picture']['data']['url']
+                    //   //   };
 
-                      //   if(facebookprofile != null){
+                    //   //   if(facebookprofile != null){
 
-                      //     await enviarFacebook(persona,context);
-                      //   }
-                      // },
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/google-icon.svg",
-                      size: Size(45.0, 45.0),
-                      press: () {},
-                    )
+                    //   //     await enviarFacebook(persona,context);
+                    //   //   }
+                    //   // },
+                    // ),
+                    // SocalCard(
+                    //   icon: "assets/icons/google-icon.svg",
+                    //   size: Size(45.0, 45.0),
+                    //   press: () {},
+                    // )
                     
                   ],
                 ),

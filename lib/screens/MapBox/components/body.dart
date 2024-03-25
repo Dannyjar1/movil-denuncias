@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:movil_denuncias/Services/shared_preferences.dart';
 import 'package:movil_denuncias/components/widget_btn.dart';
@@ -31,6 +30,7 @@ class _BodyMapaState extends State<BodyMapa> {
   double? latitud, longitud, markerLatitud, markerLongitud;
   //String? referencias, calles;
   bool gpsActivado = false;
+  Set<Marker> _markers = {};
   String marker = 'assets/images/ubi2.png';
   loc.Location location = loc.Location();
 
@@ -39,9 +39,21 @@ class _BodyMapaState extends State<BodyMapa> {
   TextEditingController referenciasController = TextEditingController();
 
   // metodo on map
-
+ addMarker(LatLng coordinates) {
+    // Limpia los marcadores existentes y añade el nuevo
+    setState(() {
+      _markers.clear();
+      _markers.add(
+        Marker(
+          markerId: MarkerId("selectedLocation"),
+          position: coordinates,
+          icon: BitmapDescriptor.defaultMarker,
+        ),
+      );
+    });
+  }
   onTapMap(LatLng coordinates) async {
-    addSymbolMap(coordinates);
+    addMarker(coordinates);
     setState(() {
       markerLatitud = coordinates.latitude;
       markerLongitud = coordinates.longitude;
@@ -113,6 +125,7 @@ class _BodyMapaState extends State<BodyMapa> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return latitud == null
@@ -149,20 +162,22 @@ class _BodyMapaState extends State<BodyMapa> {
           );
   }
 
-  addSymbolMap([coordinates]) async {
-    // mapController?.addSymbol(SymbolOptions(
-    //     zIndex: 1,
-    //     geometry: LatLng(
-    //         coordinates.latitude,
-    //         coordinates
-    //             .longitude), // location is 0.0 on purpose for this example
-    //     iconImage: marker,
-    //     iconSize: 0.25));
-    // await mapController?.clearSymbols();
-  }
+  // addSymbolMap([coordinates]) async {
+  //   mapController?.addSymbol(SymbolOptions(
+  //       zIndex: 1,
+  //       geometry: LatLng(
+  //           coordinates.latitude,
+  //           coordinates
+  //               .longitude), // location is 0.0 on purpose for this example
+  //       iconImage: marker,
+  //       iconSize: 0.25));
+  //   await mapController?.clearSymbols();
+  // }
+
 // Modificado este fue modificado
   viewMap() {
     return GoogleMap(
+      markers: _markers,
       initialCameraPosition:
           CameraPosition(target: LatLng(latitud!, longitud!), zoom: 16.5),
       mapType: MapType.normal,

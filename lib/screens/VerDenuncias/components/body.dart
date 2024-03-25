@@ -1,6 +1,6 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movil_denuncias/screens/MisDenuncias/controller_misdenuncias.dart';
+import 'package:movil_denuncias/screens/VerDenuncias/controller_verdenuncias.dart';
 import 'package:movil_denuncias/size_config.dart';
 
 class VerDenunciasBody extends StatefulWidget {
@@ -15,7 +15,7 @@ class _VerDenunciasState extends State<VerDenunciasBody> {
 
 Future<List<dynamic>> getDenuncias() async {
   try {
-    final result = await buscarDenuncias(context);
+    final result = await buscarDenunciasTodas(context);
     if (mounted) {
       setState(() {
         denuncias = result ?? [];

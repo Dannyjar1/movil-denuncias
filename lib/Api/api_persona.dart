@@ -9,9 +9,9 @@ apiLogin(data){
 crearPersona(persona){
   return http.post(Uri.parse('$urlServicio/auth/register'), body: userToJson(persona),headers: headers);
 }
-filtrarDenuncias(idpersona){
+filtrarDenuncias(persona){
   // print("$urlServicio/getAllDenuncias");
-  return http.get(Uri.parse('$urlServicio/denuncias/getDenunciasUser/'),headers: {'Authorization': 	 "Bearer ${persona}"});
+  return http.get(Uri.parse('$urlServicio/denuncias/getDenunciasUser/'),headers: {'Authorization': "Bearer ${persona}"});
 }
 
 

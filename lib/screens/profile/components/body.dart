@@ -23,9 +23,8 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Mi perfil",
             icon: "assets/icons/User Icon.svg",
-            press: () => {
-              Navigator.pushNamed(context, CompleteProfileScreen.routeName)
-            },
+            press: () =>
+                {Navigator.pushNamed(context, CompleteProfileScreen.routeName)},
           ),
           ProfileMenu(
             text: "Ver Denuncias",
@@ -42,13 +41,13 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, DenunciaView.routeName);
             },
           ),
-          ProfileMenu(
-            text: "Ayuda",
-            icon: "assets/icons/Question mark.svg",
-            press: () {
-              Navigator.pushNamed(context,OtpScreen.routeName);
-            },
-          ),
+          // ProfileMenu(
+          //   text: "Ayuda",
+          //   icon: "assets/icons/Question mark.svg",
+          //   press: () {
+          //     Navigator.pushNamed(context,OtpScreen.routeName);
+          //   },
+          // ),
           ProfileMenu(
             text: "Mis Denuncias",
             icon: "assets/icons/misdenuncias.svg",
@@ -64,14 +63,14 @@ class Body extends StatelessWidget {
               await removePerfil();
               Navigator.pop(context);
               await Navigator.of(context).pushNamedAndRemoveUntil(
-                      SignInScreen.routeName, (Route<dynamic> route) => false);
+                  SignInScreen.routeName, (Route<dynamic> route) => false);
             },
           ),
           Image.asset(
-                  'assets/images/logo.png',
-                  height: getProportionateScreenHeight(120),
-                  width: getProportionateScreenWidth(150),
-                ),
+            'assets/images/logo.png',
+            height: getProportionateScreenHeight(120),
+            width: getProportionateScreenWidth(150),
+          ),
         ],
       ),
     );

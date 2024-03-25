@@ -40,7 +40,7 @@ TextTheme textTheme() {
 AppBarTheme appBarTheme() {
   return AppBarTheme(
     // color: Colors.white,
-    color: Color(0xFF23A338),
+    color: Color.fromARGB(255, 35, 69, 163),
     elevation: 0,
     iconTheme: IconThemeData(color: Colors.black), systemOverlayStyle: SystemUiOverlayStyle.dark, toolbarTextStyle: TextTheme(
       headline6: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 18),
