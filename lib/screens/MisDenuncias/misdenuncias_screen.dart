@@ -8,7 +8,7 @@ class MisDenuncias extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mis Denuncias'),
+        title: Text('Mis Denuncias '),
       ),
       body: MisDenunciasBody(),
     );

@@ -67,7 +67,7 @@ class Body extends StatelessWidget {
             },
           ),
           Image.asset(
-            'assets/images/logo.png',
+            'assets/images/logo1.png',
             height: getProportionateScreenHeight(120),
             width: getProportionateScreenWidth(150),
           ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:movil_denuncias/components/widget_btn.dart';
 
