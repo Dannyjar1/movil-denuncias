@@ -7,7 +7,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="Cómo va mi barrio"
+        android:label="Denuncia Puyango"
         android:icon="@mipmap/ic_denuncia">
         <meta-data android:name="com.mapbox.token" android:value="@string/token_mapbox" />
         <meta-data android:name="com.facebook.sdk.ApplicationId"
