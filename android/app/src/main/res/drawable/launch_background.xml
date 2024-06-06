@@ -6,6 +6,8 @@
     <item> 
         <bitmap 
         android:gravity ="center" 
-        android:src = "@drawable/mibarrio"/> 
+        android:src = "@drawable/logo"
+    
+        android:scaleType="centerInside"/> 
     </item>
 </layer-list>

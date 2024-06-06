@@ -1,6 +1,8 @@
 import 'package:movil_denuncias/Services/shared_preferences.dart';
 import 'package:movil_denuncias/components/botones.dart';
 import 'package:movil_denuncias/screens/Denunciar/denuncia_view.dart';
+import 'package:movil_denuncias/screens/MiPerfil/components/body.dart';
+import 'package:movil_denuncias/screens/MiPerfil/miperfil_screen.dart';
 import 'package:movil_denuncias/screens/MisDenuncias/misdenuncias_screen.dart';
 import 'package:movil_denuncias/screens/VerDenuncias/verdenuncias_screen.dart';
 import 'package:movil_denuncias/screens/complete_profile/complete_profile_screen.dart';
@@ -20,12 +22,14 @@ class Body extends StatelessWidget {
       child: Column(
         children: [
           //ProfilePic(),
-          ProfileMenu(
-            text: "Mi perfil",
-            icon: "assets/icons/User Icon.svg",
-            press: () =>
-                {Navigator.pushNamed(context, CompleteProfileScreen.routeName)},
-          ),
+          // ProfileMenu(
+          //   text: "Mi perfil",
+          //   icon: "assets/icons/User Icon.svg",
+          //   press: () =>{
+          //     // Navigator.pushNamed(context, CompleteProfileScreen.routeName)
+          //     Navigator.pushNamed(context, VerPerfil.routName)
+          //     },
+          // ),
           ProfileMenu(
             text: "Ver Denuncias",
             icon: "assets/icons/location.svg",

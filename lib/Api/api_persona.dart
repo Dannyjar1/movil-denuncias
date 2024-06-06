@@ -16,7 +16,7 @@ filtrarDenuncias(persona){
 
 filtrarPerfil(persona){
   //print("$urlServicio//getDetailUser");
-  return http.get(Uri.parse('$urlServicio/getDetailUser'),headers: {'Authorization': "Bearer ${persona}"});
+  return http.get(Uri.parse('$urlServicio/admin/getDetailUser'),headers: {'Authorization': "Bearer ${persona}"});
 }
 
 filtrarDenunciasTodas(persona){

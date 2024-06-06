@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 
 
-buscarDenunciasTodas(context) async {
+buscarDenunciasTodas(context, {List<String>? categories, List<String>? states}) async {
   try {
     String idpersona = await obtenerPerfil();
     http.Response response = await filtrarDenunciasTodas(idpersona);
