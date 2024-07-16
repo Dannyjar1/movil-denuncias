@@ -23,6 +23,6 @@ filtrarDenunciasTodas(persona){
   // print("$urlServicio/getAllDenuncias");
   return http.get(Uri.parse('$urlServicio/denuncias/getAllDenuncias'),headers: {'Authorization': 	 "Bearer ${persona}"});
 }
-crearLoginFacebook(facebook){
-  return http.post(Uri.parse('$urlServicio/crear-login-facebook'), body: json.encode(facebook),headers: headers);
-}
+// crearLoginFacebook(facebook){
+//   return http.post(Uri.parse('$urlServicio/crear-login-facebook'), body: json.encode(facebook),headers: headers);
+// }

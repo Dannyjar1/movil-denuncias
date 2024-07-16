@@ -1540,7 +1540,7 @@ void showDetailDialog(dynamic denuncia) {
                       children: [
                         Icon(Icons.warning, color: Colors.black),
                         SizedBox(width: 5),
-                        Text('Contexto: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('Concepto: ', style: TextStyle(fontWeight: FontWeight.bold)),
                         Flexible(
                           child: Text(
                             denuncia['tituloDenuncia'],

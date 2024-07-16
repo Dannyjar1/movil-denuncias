@@ -38,9 +38,9 @@ class _BodyState extends State<Body> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SocalCard(
-                      icon: "assets/icons/facebook-2.svg",
-                      size: Size(45.0, 45.0), press: () {},
+                    // SocalCard(
+                      // icon: "assets/icons/facebook-2.svg",
+                      // size: Size(45.0, 45.0), press: () {},
 
                       // press: () async {
                       //   mostrarLoading(context);
@@ -57,12 +57,12 @@ class _BodyState extends State<Body> {
                       //     await enviarFacebook(persona,context);
                       //   }
                       // },
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/google-icon.svg",
-                      size: Size(45.0, 45.0),
-                      press: () {},
-                    )
+                    // ),
+                    // SocalCard(
+                    //   icon: "assets/icons/google-icon.svg",
+                    //   size: Size(45.0, 45.0),
+                    //   press: () {},
+                    // )
                     
                   ],
                 ),

@@ -59,6 +59,25 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, MisDenuncias.routName);
             },
           ),
+          // ProfileMenu(
+          //   text: "Cerrar Sesión",
+          //   icon: "assets/icons/Log out.svg",
+          //   press: () async {
+          //     mostrarLoading(context);
+          //     await removePerfil();
+          //     Navigator.pop(context);
+          //     await Navigator.of(context).pushNamedAndRemoveUntil(
+          //         SignInScreen.routeName, (Route<dynamic> route) => false);
+          //   },
+          // ),
+          // SizedBox(height: getProportionateScreenHeight(115)),
+          // Image.asset(
+          //   'assets/images/logo1.png',
+          //   height: getProportionateScreenHeight(150),
+          //   width: getProportionateScreenWidth(180),
+          //   // height: getProportionateScreenHeight(120),
+          //   // width: getProportionateScreenWidth(150),
+          // ),
           ProfileMenu(
             text: "Cerrar Sesión",
             icon: "assets/icons/Log out.svg",
@@ -70,10 +89,16 @@ class Body extends StatelessWidget {
                   SignInScreen.routeName, (Route<dynamic> route) => false);
             },
           ),
-          Image.asset(
-            'assets/images/logo1.png',
-            height: getProportionateScreenHeight(120),
-            width: getProportionateScreenWidth(150),
+          SizedBox(height: getProportionateScreenHeight(115)),
+          Align(
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/images/logo1.png',
+              height: getProportionateScreenHeight(150),
+              width: getProportionateScreenWidth(180),
+              // height: getProportionateScreenHeight(120),
+              // width: getProportionateScreenWidth(150),
+            ),
           ),
         ],
       ),

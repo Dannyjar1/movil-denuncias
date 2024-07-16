@@ -20,7 +20,8 @@ class Body extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight! * 0.04), // 4%
                 Text("Regístrar Cuenta", style: headingStyle),
                 Text(
-                  "Completa la información o \n con redes sociales",
+                  "Completa la información",
+                  // "Completa la información o \n con redes sociales",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight! * 0.08),
@@ -29,16 +30,16 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SocalCard(
-                      size: Size(45.0, 45.0),
-                      icon: "assets/icons/google-icon.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      size: Size(45.0, 45.0),
-                      icon: "assets/icons/facebook-2.svg",
-                      press: () {},
-                    ),
+                    // SocalCard(
+                    //   size: Size(45.0, 45.0),
+                    //   icon: "assets/icons/google-icon.svg",
+                    //   press: () {},
+                    // ),
+                    // SocalCard(
+                    //   size: Size(45.0, 45.0),
+                    //   icon: "assets/icons/facebook-2.svg",
+                    //   press: () {},
+                    // ),
                   ],
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),

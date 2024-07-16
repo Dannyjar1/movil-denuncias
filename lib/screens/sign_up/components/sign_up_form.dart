@@ -541,7 +541,7 @@ class _SignUpFormState extends State<SignUpForm> {
           buildNombreCompletoFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildCedulaFormField(),
-          SizedBox(height: getProportionateScreenHeight(10)),
+          SizedBox(height: getProportionateScreenHeight(30)),
           buildCellFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildEmailFormField(),
